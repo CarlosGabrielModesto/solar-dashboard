@@ -1,6 +1,6 @@
-# ☀️ Solar Dashboard
+# Solar Dashboard
 
-Painel interativo de monitoramento de irradiância solar e condições climáticas em tempo real, consumindo dados da API Open-Meteo.
+Painel interativo para monitoramento de irradiância solar e condições climáticas em tempo real, com dados da API Open-Meteo.
 
 ![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6?logo=typescript&logoColor=white)
@@ -10,13 +10,13 @@ Painel interativo de monitoramento de irradiância solar e condições climátic
 
 ---
 
-## 📋 Sobre o Projeto
+## Visão geral
 
-Dashboard que exibe as três componentes de irradiância solar (**GHI**, **DNI**, **DHI**), índice UV, temperatura, umidade, precipitação e velocidade do vento — com previsão de 7 dias para cidades brasileiras.
+O dashboard exibe as três componentes de irradiância solar (**GHI**, **DNI** e **DHI**), além de índice UV, temperatura, umidade, precipitação e velocidade do vento, com previsão de 7 dias para cidades brasileiras.
 
-Desenvolvido como projeto de portfólio, conectando conhecimentos de **desenvolvimento front-end** com a área de pesquisa em **radiação solar e meteorologia**.
+O projeto foi desenvolvido como portfólio, conectando conhecimentos de **desenvolvimento front-end** com a área de pesquisa em **radiação solar e meteorologia**.
 
-### Funcionalidades
+## Funcionalidades
 
 - Dados meteorológicos e de irradiância em tempo real
 - Gráfico de irradiância solar com as 3 componentes (GHI, DNI, DHI)
@@ -29,29 +29,27 @@ Desenvolvido como projeto de portfólio, conectando conhecimentos de **desenvolv
 - Atualização manual dos dados
 - Design responsivo (desktop e mobile)
 
----
+## Fórmulas e conversões
 
-## 🔬 Fórmulas e Conversões Utilizadas
-
-O dashboard exibe a maioria dos valores **diretamente como a API retorna**, sem transformação. As únicas conversões são:
+O dashboard exibe a maior parte dos valores **diretamente como a API retorna**, sem transformação. As únicas conversões aplicadas são as seguintes.
 
 ### 1. Energia solar diária: MJ/m² → kWh/m²
 
-```
+```text
 kWh/m² = MJ/m² ÷ 3,6
 ```
 
-A API Open-Meteo retorna a radiação acumulada diária (`shortwave_radiation_sum`) em **MJ/m²**. Para exibir em **kWh/m²** (unidade mais intuitiva para energia), divide-se por 3,6 — pois **1 kWh = 3,6 MJ**.
+A API Open-Meteo retorna a radiação acumulada diária (`shortwave_radiation_sum`) em **MJ/m²**. Para exibir em **kWh/m²**, o valor é dividido por 3,6, já que **1 kWh = 3,6 MJ**.
 
 **Onde é usada:** `src/utils/formatadores.ts` → função `mjParaKwh()`, consumida pelo componente `CardDiario`.
 
-### 2. Barra visual do índice UV (apenas visual)
+### 2. Barra visual do índice UV
 
-```
+```text
 porcentagem = (índiceUV / 14) × 100
 ```
 
-O valor 14 representa o topo prático da escala UV. Essa fórmula é usada **somente para calcular a largura da barra de progresso** no componente `GaugeUv`, não altera o valor exibido.
+O valor 14 representa o topo prático da escala UV. Essa fórmula é usada **apenas para calcular a largura da barra de progresso** no componente `GaugeUv`, sem alterar o valor exibido.
 
 **Onde é usada:** `src/components/GaugeUv.tsx`
 
@@ -69,9 +67,7 @@ O valor 14 representa o topo prático da escala UV. Essa fórmula é usada **som
 | Velocidade do Vento | km/h | `windspeed_10m` |
 | Índice UV | adimensional | `uv_index` |
 
----
-
-## 🛠️ Tecnologias
+## Tecnologias
 
 | Tecnologia | Uso |
 |---|---|
@@ -83,11 +79,10 @@ O valor 14 representa o topo prático da escala UV. Essa fórmula é usada **som
 | **Open-Meteo API** | Dados meteorológicos e de irradiância solar |
 | **Google Fonts** | Tipografia (Outfit + DM Mono) |
 
----
-
-## 🌐 API Utilizada
+## API utilizada
 
 **Open-Meteo Forecast API**
+
 - URL base: `https://api.open-meteo.com/v1/forecast`
 - Gratuita para uso não-comercial
 - Sem necessidade de chave de API
@@ -99,11 +94,9 @@ O valor 14 representa o topo prático da escala UV. Essa fórmula é usada **som
 
 **Diários:** `temperature_2m_max`, `temperature_2m_min`, `precipitation_sum`, `uv_index_max`, `shortwave_radiation_sum`, `sunrise`, `sunset`
 
----
+## Estrutura do projeto
 
-## 📂 Estrutura do Projeto
-
-```
+```text
 solar-dashboard/
 ├── package.json                  # Dependências e scripts
 ├── README.md                     # Documentação
@@ -134,12 +127,12 @@ solar-dashboard/
     │   ├── GraficoIrradiancia.tsx   # AreaChart: GHI, DNI, DHI
     │   ├── GraficoTemperatura.tsx   # LineChart: temp + umidade (2 eixos)
     │   ├── GraficoUv.tsx            # BarChart: índice UV por hora
-    │   └── GraficoPrecipitacao.tsx   # BarChart: precipitação por hora
+    │   └── GraficoPrecipitacao.tsx  # BarChart: precipitação por hora
     └── pages/
         └── SolarDashboard.tsx    # Página principal (orquestra tudo)
 ```
 
-### Princípios da organização
+### Organização das pastas
 
 | Pasta | Responsabilidade |
 |---|---|
@@ -150,9 +143,7 @@ solar-dashboard/
 | `graficos/` | Componentes específicos do Recharts |
 | `pages/` | Telas que compõem os componentes |
 
----
-
-## 🚀 Como Executar
+## Como executar
 
 ### Pré-requisitos
 
@@ -180,9 +171,7 @@ npm run build
 npm run preview
 ```
 
----
-
-## 📊 Glossário de Termos Solares
+## Glossário de termos solares
 
 | Sigla | Termo | Descrição |
 |---|---|---|
@@ -194,12 +183,8 @@ npm run preview
 | **kWh/m²** | Quilowatt-hora por metro quadrado | Unidade de energia acumulada por área |
 | **MJ/m²** | Megajoules por metro quadrado | Unidade de energia acumulada por área |
 
----
-
-## 📝 Licença
+## Licença
 
 Distribuído sob a licença MIT. Consulte `LICENSE` para mais informações.
 
----
-
-**Desenvolvido por Carlos Gabriel dos Santos Modesto**
+Carlos Gabriel dos Santos Modesto
